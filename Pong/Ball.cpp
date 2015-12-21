@@ -44,8 +44,8 @@ void Ball::Update() {
 	const int rightMargin = 2;
 	const int topMargin = 1;
 	const int bottomMargin = 1;
-	const double speedXIncrease = 0.0001;
-	const double speedYIncrease = 0.02;
+	const double speedXIncrease = 0.0005;
+	const double speedYIncrease = 0.1;
 
 	if (deltaX > 0) {
 		deltaX += speedXIncrease;
@@ -124,9 +124,9 @@ void Ball::Reset() {
 	x = g->GetWidth() / 2;
 	y = g->GetHeight() / 2;
 	if (g->player1->score > g->player2->score) {
-		deltaX = 0.1;
+		deltaX = 0.5;
 	} else {
-		deltaX = -0.1;
+		deltaX = -0.5;
 	}
 	deltaY = 0.0;
 }

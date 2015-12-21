@@ -8,7 +8,7 @@
 
 Pong::Pong() {
 	// TODO: Make this modifiable.
-	drawsPerSecond = 100;
+	drawsPerSecond = 20;
 	deltaTime = 0.0;
 	frameTime = 0.0;
 	lastUpdate = clock();
@@ -45,31 +45,22 @@ void Pong::Update() {
 	}
 
 	/// This part processes inputs.
-	/*
 #ifdef WIN32
-	for (int i = 0; i < 256; i++) {
-		if (GetAsyncKeyState(i) & 0x8000) {
-			switch (i) {
-				case 'l':
-					std::cout << GetAsyncKeyState(i);
-					player1->nextPress = control::UP;
-					break;
-				case '.':
-					std::cout << GetAsyncKeyState(i);
-					player1->nextPress = control::DOWN;
-					break;
-				case 'a':
-					std::cout << GetAsyncKeyState(i);
-					player2->nextPress = control::UP;
-					break;
-				case 'z':
-					std::cout << GetAsyncKeyState(i);
-					player2->nextPress = control::DOWN;
-					break;
-			}
-		}
+	if (GetAsyncKeyState('A') && GetAsyncKeyState('Z')) {
+		player1->nextPress = NONE;
+	} else if (GetAsyncKeyState('A')) {
+		player1->nextPress = UP;
+	} else if (GetAsyncKeyState('Z')) {
+		player1->nextPress = DOWN;
 	}
-#else*/
+	if (GetAsyncKeyState('L') && GetAsyncKeyState(0xBE)) {
+		player2->nextPress = NONE;
+	} else if (GetAsyncKeyState('L')) {
+		player2->nextPress = UP;
+	} else if (GetAsyncKeyState(0xBE)) {
+		player2->nextPress = DOWN;
+	}
+#else
 	rlutil::key keyPress = rlutil::nb_getch();
 	switch (keyPress) {
 		case 'a':
@@ -85,7 +76,7 @@ void Pong::Update() {
 			player2->nextPress = DOWN;
 			break;
 	}
-//#endif
+#endif
 }
 
 
