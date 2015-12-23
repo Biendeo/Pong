@@ -3,7 +3,7 @@
 #include "Paddle.h"
 #include "Ball.h"
 
-enum control {
+enum class Control {
 	NONE,
 	UP,
 	DOWN,

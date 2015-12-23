@@ -47,33 +47,33 @@ void Pong::Update() {
 	/// This part processes inputs.
 #ifdef WIN32
 	if (GetAsyncKeyState('A') && GetAsyncKeyState('Z')) {
-		player1->nextPress = NONE;
+		player1->nextPress = Control::NONE;
 	} else if (GetAsyncKeyState('A')) {
-		player1->nextPress = UP;
+		player1->nextPress = Control::UP;
 	} else if (GetAsyncKeyState('Z')) {
-		player1->nextPress = DOWN;
+		player1->nextPress = Control::DOWN;
 	}
 	if (GetAsyncKeyState('L') && GetAsyncKeyState(0xBE)) {
-		player2->nextPress = NONE;
+		player2->nextPress = Control::NONE;
 	} else if (GetAsyncKeyState('L')) {
-		player2->nextPress = UP;
+		player2->nextPress = Control::UP;
 	} else if (GetAsyncKeyState(0xBE)) {
-		player2->nextPress = DOWN;
+		player2->nextPress = Control::DOWN;
 	}
 #else
 	rlutil::key keyPress = rlutil::nb_getch();
-	switch (keyPress) {
+	switch (keyPress) { 
 		case 'a':
-			player1->nextPress = UP;
+			player1->nextPress = Control::UP;
 			break;
 		case 'z':
-			player1->nextPress = DOWN;
+			player1->nextPress = Control::DOWN;
 			break;
 		case 'l':
-			player2->nextPress = UP;
+			player2->nextPress = Control::UP;
 			break;
 		case '.':
-			player2->nextPress = DOWN;
+			player2->nextPress = Control::DOWN;
 			break;
 	}
 #endif

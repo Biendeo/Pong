@@ -2,17 +2,21 @@
 
 class Pong;
 
-namespace rlutil {
-	/// This is specifically a keypress. It uses rlutil's key enums.
-	typedef int key;
-}
+enum class AIMode {
+	NONE,
+	HUMAN,
+	EASY,
+	NORMAL,
+	HARD,
+	IMPOSSIBLE
+};
 
 class Paddle {
 	public:
 	Paddle(Pong *g, int x);
 	~Paddle();
 	void Update();
-	rlutil::key nextPress;
+	Control nextPress;
 	int GetUpperBound();
 	int GetLowerBound();
 	int score;
