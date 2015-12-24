@@ -1,4 +1,7 @@
 #include "Pong.h"
+#include "Paddle.h"
+#include "Ball.h"
+#include "AI.h"
 #include "rlutil.h"
 
 #ifdef WIN32
@@ -6,7 +9,7 @@
 #endif
 
 
-Pong::Pong() {
+Pong::Pong(int pointLimit, AIMode ai1, AIMode ai2) {
 	// TODO: Make this modifiable.
 	drawsPerSecond = 20;
 	deltaTime = 0.0;
@@ -14,9 +17,10 @@ Pong::Pong() {
 	lastUpdate = clock();
 	height = rlutil::trows();
 	width = rlutil::tcols();
-	player1 = new Paddle(this, 2);
-	player2 = new Paddle(this, rlutil::tcols() - 1);
+	player1 = new Paddle(this, 2, ai1);
+	player2 = new Paddle(this, rlutil::tcols() - 1, ai2);
 	ball = new Ball(this);
+	this->pointLimit = pointLimit;
 }
 
 
@@ -46,34 +50,47 @@ void Pong::Update() {
 
 	/// This part processes inputs.
 #ifdef WIN32
-	if (GetAsyncKeyState('A') && GetAsyncKeyState('Z')) {
-		player1->nextPress = Control::NONE;
-	} else if (GetAsyncKeyState('A')) {
-		player1->nextPress = Control::UP;
-	} else if (GetAsyncKeyState('Z')) {
-		player1->nextPress = Control::DOWN;
+	if (player1->GetAIMode() == AIMode::HUMAN) {
+		if (GetAsyncKeyState('A') && GetAsyncKeyState('Z')) {
+			player1->nextPress = Control::NONE;
+		} else if (GetAsyncKeyState('A')) {
+			player1->nextPress = Control::UP;
+		} else if (GetAsyncKeyState('Z')) {
+			player1->nextPress = Control::DOWN;
+		}
 	}
-	if (GetAsyncKeyState('L') && GetAsyncKeyState(0xBE)) {
-		player2->nextPress = Control::NONE;
-	} else if (GetAsyncKeyState('L')) {
-		player2->nextPress = Control::UP;
-	} else if (GetAsyncKeyState(0xBE)) {
-		player2->nextPress = Control::DOWN;
+
+	if (player2->GetAIMode() == AIMode::HUMAN) {
+		if (GetAsyncKeyState('L') && GetAsyncKeyState(0xBE)) {
+			player2->nextPress = Control::NONE;
+		} else if (GetAsyncKeyState('L')) {
+			player2->nextPress = Control::UP;
+		} else if (GetAsyncKeyState(0xBE)) {
+			player2->nextPress = Control::DOWN;
+		}
 	}
 #else
 	rlutil::key keyPress = rlutil::nb_getch();
 	switch (keyPress) { 
 		case 'a':
-			player1->nextPress = Control::UP;
+			if (player1->GetAIMode() == AIMode::HUMAN) {
+				player1->nextPress = Control::UP;
+			}
 			break;
 		case 'z':
-			player1->nextPress = Control::DOWN;
+			if (player1->GetAIMode() == AIMode::HUMAN) {
+				player1->nextPress = Control::DOWN;
+			}
 			break;
 		case 'l':
-			player2->nextPress = Control::UP;
+			if (player2->GetAIMode() == AIMode::HUMAN) {
+				player2->nextPress = Control::UP;
+			}
 			break;
 		case '.':
-			player2->nextPress = Control::DOWN;
+			if (player2->GetAIMode() == AIMode::HUMAN) {
+				player2->nextPress = Control::DOWN;
+			}
 			break;
 	}
 #endif
@@ -117,5 +134,17 @@ void Pong::RoundWin(int player) {
 	player1->Reset();
 	player2->Reset();
 
+	lastUpdate = clock();
+
 	rlutil::cls();
+}
+
+bool Pong::GetWinState() {
+	if (player1->score >= pointLimit) {
+		return true;
+	} else if (player2->score >= pointLimit) {
+		return true;
+	} else {
+		return false;
+	}
 }

@@ -1,20 +1,15 @@
 #pragma once
 #include <ctime>
-#include "Paddle.h"
-#include "Ball.h"
 
-enum class Control {
-	NONE,
-	UP,
-	DOWN,
-	CONFIRM,
-	CANCEL
-};
+class Paddle;
+class Ball;
+enum class AIMode;
+
 
 class Pong {
 
 	public:
-	Pong();
+	Pong(int pointLimit, AIMode ai1, AIMode ai2);
 	~Pong();
 	void Update();
 	int GetDrawsPerSecond();
@@ -24,6 +19,7 @@ class Pong {
 	Paddle *player1;
 	Paddle *player2;
 	Ball *ball;
+	bool GetWinState();
 
 	private:
 	int drawsPerSecond; // CONST
@@ -32,5 +28,5 @@ class Pong {
 	clock_t lastUpdate;
 	int height;
 	int width;
+	int pointLimit;
 };
-

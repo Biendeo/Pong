@@ -1,5 +1,6 @@
 #include <cmath>
 #include "Ball.h"
+#include "Paddle.h"
 #include "Pong.h"
 #include "rlutil.h"
 
@@ -128,5 +129,5 @@ void Ball::Reset() {
 	} else {
 		deltaX = -0.5;
 	}
-	deltaY = 0.0;
+	deltaY = ((double)((rand() % 2000) - 1000) / 5000);
 }

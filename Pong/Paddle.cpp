@@ -1,18 +1,20 @@
 #include "Paddle.h"
 #include "Pong.h"
+#include "AI.h"
 #include "rlutil.h"
 
-Paddle::Paddle(Pong *g, int x) {
+Paddle::Paddle(Pong *g, int x, AIMode ai) {
 	this->g = g;
 	this->x = x;
 	width = 5;
 	Reset();
 	score = 0;
+	this->ai = new AI(g, this, ai);
 }
 
 
 Paddle::~Paddle() {
-
+	delete ai;
 }
 
 
@@ -26,8 +28,10 @@ void Paddle::Update() {
 		}
 	}
 
+	ai->Update();
+
 	switch (nextPress) {
-		case UP:
+		case Control::UP:
 			--y;
 			if (y < 0) {
 				++y;
@@ -38,7 +42,7 @@ void Paddle::Update() {
 				rlutil::setChar('|');
 			}
 			break;
-		case DOWN:
+		case Control::DOWN:
 			++y;
 			if (y > g->GetHeight() - width) {
 				--y;
@@ -50,7 +54,7 @@ void Paddle::Update() {
 			}
 			break;
 	}
-	nextPress = NONE;
+	nextPress = Control::NONE;
 
 	std::cout.flush();
 }
@@ -60,6 +64,9 @@ int Paddle::GetUpperBound() {
 	return y;
 }
 
+int Paddle::GetMiddle() {
+	return y + (width / 2) - 1;
+}
 
 int Paddle::GetLowerBound() {
 	return y + width - 1;
@@ -70,13 +77,16 @@ int Paddle::GetX() {
 	return x;
 }
 
-
 void Paddle::Reset() {
 	y = -5;
-	nextPress = NONE;
+	nextPress = Control::NONE;
 }
 
 
 int Paddle::GetWidth() {
 	return width;
+}
+
+AIMode Paddle::GetAIMode() {
+	return ai->GetMode();
 }
