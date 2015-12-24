@@ -6,5 +6,7 @@ Supports:
  - Four AI difficulties
  - Several score goals
  - Supports any sized console window (although preferably play with a 30x20 or larger console)
+ - Runs on Windows, Mac, and Linux
+ - Supports multiple keypresses at once on Windows
 
 Use A and Z to control the left paddle, and L and . to control the right paddle. Curve the ball and try and outsmart your opponent.
