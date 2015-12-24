@@ -53,6 +53,8 @@ void Paddle::Update() {
 				rlutil::setChar('|');
 			}
 			break;
+		default:
+			break;
 	}
 	nextPress = Control::NONE;
 
