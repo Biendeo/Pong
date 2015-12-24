@@ -10,3 +10,6 @@ Supports:
  - Supports multiple keypresses at once on Windows
 
 Use A and Z to control the left paddle, and L and . to control the right paddle. Curve the ball and try and outsmart your opponent.
+
+## Installation
+Just type `gcc *.cpp -o Pong -Wall -std=c++11` to build the game. Visual Studio users can build the provided solution.
